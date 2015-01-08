@@ -9,14 +9,17 @@
   </style>
 </head>
 <body>
-  <!-- <img src="./pencils.jpg" id="pencils"/> -->
-  <!-- <img src="./robot.jpg" id="robot"/> -->
-  <video src="./video/boy2.mov" id="robot" autoplay></video>
-  <video src="./video/boy.m4v" id="pencils" autoplay></video>
-
+  <button name="button" id="start_btn">動画スタート!</button>※音が出ます。Chromeなどモダンブラウザ推奨。<br/>
+  <video src="./video/boy_main.mov" id="main_video"></video>
+  <video src="./video/boy_sub.mov" id="sub_video"></video>
   <canvas id="canvas" width="640" height="619"></canvas>
+  <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
   <script src="./js/require.js"></script>
   <script>
+
+  var main_v = document.getElementById("main_video");
+  var sub_v = document.getElementById("sub_video");
+
   require.config({
     baseUrl: './js'
   });
@@ -31,8 +34,8 @@
       channels, // a split effect
       blend,
       target, // a wrapper object for our target canvas
-      scaleRobot,
-      scalePencils,
+      scaleSub,
+      scaleMain,
 
       moveMask,
       resizeMask,
@@ -44,15 +47,15 @@
       channels = seriously.effect('channels');
       blend = seriously.effect('blend');
 
-      scaleRobot = seriously.transform('2d');
-      scaleRobot.source = seriously.source('#robot');
-      scaleRobot.scale(640/989);
+      scaleSub = seriously.transform('2d');
+      scaleSub.source = seriously.source('#sub_video');
+      scaleSub.scale(440/989);
 
-      scalePencils = seriously.transform('reformat');
-      scalePencils.source = seriously.source('#pencils');
-      scalePencils.width = 640;
-      scalePencils.height = 619;
-      scalePencils.mode = 'cover';
+      scaleMain = seriously.transform('reformat');
+      scaleMain.source = seriously.source('#main_video');
+      scaleMain.width = 640;
+      scaleMain.height = 619;
+      scaleMain.mode = 'cover';
 
       //draw mask
       mask.width = 100;
@@ -63,6 +66,8 @@
       ctx.fillStyle = 'white';
       ctx.fillRect(0, 0, 160, 160);
 
+      console.log(ctx);
+
       resizeMask = seriously.transform('reformat');
       resizeMask.source = mask;
       resizeMask.width = target.width;
@@ -71,15 +76,15 @@
       moveMask = seriously.transform();
       moveMask.source = resizeMask;
       // moveMask.rotation = 30;
-      moveMask.scale(1);
+      moveMask.scale(0.7);
 
-      channels.source = scaleRobot;
+      channels.source = scaleSub;
       channels.alphaSource = moveMask;
       channels.alpha = 'red';
       channels.blue = 'green';
       channels.green = 'blue';
 
-      blend.bottom = scalePencils;
+      blend.bottom = scaleMain;
       blend.top = channels;
 
       target.source = blend;
@@ -93,10 +98,23 @@
         moveMask.translateY = canvas.height / 2 - y;
       }, false);
 
-      seriously.go(function (now) {
-        // moveMask.rotation = (now % 18000) / 50;
+      var start_btn = document.getElementById('start_btn');
+      var e = document.createEvent("MouseEvents");
+      e.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false,
+      false, false, false, 0, null);
+      start_btn.dispatchEvent(e);
+
+      $('#start_btn').on('click', function(){
+        main_v.play();
+        sub_v.play();
+
+        seriously.go(function (now) {
+          // moveMask.rotation = (now % 18000) / 50;
+        });
       });
+
     });
+
   </script>
 </body>
 </html>
