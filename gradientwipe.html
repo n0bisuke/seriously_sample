@@ -5,7 +5,6 @@
   <style>
   canvas {
     display: block;
-    margin: auto;
     border: black solid 1px;
   }
 
@@ -18,7 +17,7 @@
 <body>
   <img id="robot" src="img/robot.jpg"/>
   <img id="pencils" src="img/pencils.jpg"/>
-  <canvas id="canvas" width="960" height="540"></canvas>
+  <canvas id="canvas" width="510" height="400"></canvas>
   <div id="controls">
     <label>Transition <input id="transition" type="range" min="0" max="1" step="0.0001" value="0"/></label>
     <label>Smoothness <input id="smoothness" type="range" min="0" max="1" step="0.0001" value="0.1"/></label>
@@ -48,17 +47,17 @@
     reformatPencils = seriously.transform('reformat');
 
     reformatRobot.source = '#robot';
-    reformatRobot.width = 960;
+    reformatRobot.width = 655;
     reformatRobot.height = 540;
     reformatRobot.mode = 'cover';
 
     reformatPencils.source = '#pencils';
-    reformatPencils.width = 960;
+    reformatPencils.width = 655;
     reformatPencils.height = 540;
     reformatPencils.mode = 'cover';
 
     noise = seriously.effect('simplex');
-    noise.width = 960;
+    noise.width = 655;
     noise.height = 540;
     noise.noiseScale = [5, 5];
     noise.octaves = 3;

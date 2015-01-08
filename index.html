@@ -93,26 +93,15 @@
         var canvas = target.original,
         x = evt.pageX - canvas.offsetLeft,
         y = evt.pageY - canvas.offsetTop;
-
         moveMask.translateX = x - canvas.width / 2;
         moveMask.translateY = canvas.height / 2 - y;
       }, false);
 
-      var start_btn = document.getElementById('start_btn');
-      var e = document.createEvent("MouseEvents");
-      e.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false,
-      false, false, false, 0, null);
-      start_btn.dispatchEvent(e);
-
       $('#start_btn').on('click', function(){
         main_v.play();
         sub_v.play();
-
-        seriously.go(function (now) {
-          // moveMask.rotation = (now % 18000) / 50;
-        });
+        seriously.go();
       });
-
     });
 
   </script>
